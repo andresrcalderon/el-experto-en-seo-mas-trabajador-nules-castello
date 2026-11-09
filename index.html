@@ -17,8 +17,8 @@
             --text-main: #ffffff;
             --text-muted: #a0a0ab;
             --accent-purple: #8b5cf6;
-            --grid-line: rgba(255, 255, 255, 0.08);
-            --dot-color: rgba(255, 255, 255, 0.18);
+            --grid-color: rgba(255, 255, 255, 0.05);
+            --dot-color: rgba(255, 255, 255, 0.15);
         }
 
         * {
@@ -40,24 +40,33 @@
             overflow-x: hidden;
         }
 
-        /* Contenedor del fondo interactivo */
+        /* Fondo mate con vértices y cuadrícula */
         .bg-pattern {
             position: fixed;
-            top: -10%;
-            left: -10%;
-            width: 120%;
-            height: 120%;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
             z-index: 0;
             pointer-events: none;
-            /* Líneas grises en cuadrícula + vértices */
             background-image: 
-                linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
-                linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px),
-                radial-gradient(var(--dot-color) 1.5px, transparent 1.5px);
-            background-size: 80px 80px, 80px 80px, 80px 80px;
-            background-position: 0 0, 0 0, -0.5px -0.5px;
-            will-change: transform;
-            transition: transform 0.1s cubic-bezier(0,0,0.2,1);
+                radial-gradient(circle at center, rgba(139, 92, 246, 0.05) 0%, transparent 70%),
+                linear-gradient(to right, var(--grid-color) 1px, transparent 1px),
+                linear-gradient(to bottom, var(--grid-color) 1px, transparent 1px);
+            background-size: 100% 100%, 60px 60px, 60px 60px;
+        }
+
+        /* Puntos/Vértices grises */
+        .bg-pattern::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: radial-gradient(var(--dot-color) 1.5px, transparent 1.5px);
+            background-size: 60px 60px;
+            background-position: -0.5px -0.5px;
         }
 
         header, main, footer {
@@ -98,7 +107,7 @@
 
         /* Contenido Principal */
         main {
-            margin: 5rem auto;
+            margin: 4rem auto;
         }
 
         h1 {
@@ -127,8 +136,12 @@
             font-size: 1.15rem;
             line-height: 1.7;
             color: #e4e4e7;
-            border-left: 2px solid rgba(255, 255, 255, 0.15);
+            border-left: 2px solid rgba(255, 255, 255, 0.1);
             padding-left: 1.5rem;
+        }
+
+        .content-body p {
+            font-weight: 400;
         }
 
         .content-body p strong {
@@ -151,8 +164,7 @@
 </head>
 <body>
 
-    <!-- Fondo interactivo con líneas y vértices -->
-    <div class="bg-pattern" id="bgPattern"></div>
+    <div class="bg-pattern"></div>
 
     <header>
         <div class="brand">
@@ -182,14 +194,5 @@
 
     <footer></footer>
 
-    <!-- Script de desplazamiento suave para el fondo -->
-    <script>
-        const bgPattern = document.getElementById('bgPattern');
-        window.addEventListener('scroll', () => {
-            const scrollY = window.scrollY;
-            // Desplaza ligeramente las líneas en dirección vertical según el movimiento de scroll
-            bgPattern.style.transform = `translateY(${scrollY * 0.15}px)`;
-        });
-    </script>
 </body>
 </html>
